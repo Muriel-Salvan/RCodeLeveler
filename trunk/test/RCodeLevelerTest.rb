@@ -38,6 +38,7 @@ module RCodeLevelerTest
     end
     RCodeLeveler.resetLevels
     RCodeLeveler.setWarningSeverity(2)
+    RCodeLeveler.setOutputDirectory(nil)
   end
   
   # Remove the directory that includes RequiredFiles for the next tests.

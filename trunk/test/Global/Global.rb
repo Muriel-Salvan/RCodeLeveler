@@ -66,4 +66,86 @@ class TestGlobal < Test::Unit::TestCase
     end
   end
   
+  # Test non Ruby file
+  def testNonRubyFile
+    assert_raise(LoadError) do
+      requireFile('NonRubyFile.so')
+    end
+  end
+  
+  # Test using RCodeLeveler.getLeveledFileContent
+  def testgetLeveledFileContent
+    RCodeLeveler::setLevel(2)
+    lNewContent, lDiff = RCodeLeveler.getLeveledFileContent('RequiredFiles/SimpleFile')
+    File.open("#{File.dirname(__FILE__)}/RequiredFiles/SimpleFile.rb", 'r') do |iFile|
+      assert_not_equal(lNewContent, iFile.readlines)
+    end
+    assert_equal(true, lDiff)
+  end
+  
+  # Test using RCodeLeveler.getLeveledFileContent with a file having no LVL macros
+  def testgetLeveledFileContentNoLVL
+    RCodeLeveler::setLevel(2)
+    lNewContent, lDiff = RCodeLeveler.getLeveledFileContent('RequiredFiles/SimpleFileWithNoLVL')
+    File.open("#{File.dirname(__FILE__)}/RequiredFiles/SimpleFileWithNoLVL.rb", 'r') do |iFile|
+      assert_equal(iFile.readlines, lNewContent)
+    end
+    assert_equal(false, lDiff)
+  end
+  
+  # Test using RCodeLeveler.getLeveledFileContent with a file having useless LVL macros
+  def testgetLeveledFileContentUselessLVL
+    # If set to 1, nothing will be leveled.
+    RCodeLeveler::setLevel(1)
+    lNewContent, lDiff = RCodeLeveler.getLeveledFileContent('RequiredFiles/SimpleFile')
+    File.open("#{File.dirname(__FILE__)}/RequiredFiles/SimpleFile.rb", 'r') do |iFile|
+      assert_equal(iFile.readlines, lNewContent)
+    end
+    assert_equal(false, lDiff)
+  end
+  
+  # Test using RCodeLeveler.getLeveledFileContent with a file having useless LVL macros of blocks
+  def testgetLeveledFileContentUselessLVLBlock
+    # If set to 2, nothing will be leveled.
+    RCodeLeveler::setLevel(2)
+    lNewContent, lDiff = RCodeLeveler.getLeveledFileContent('RequiredFiles/SimpleFileBlock')
+    File.open("#{File.dirname(__FILE__)}/RequiredFiles/SimpleFileBlock.rb", 'r') do |iFile|
+      assert_equal(iFile.readlines, lNewContent)
+    end
+    assert_equal(false, lDiff)
+  end
+  
+  # Test using RCodeLeveler.getLeveledFileContent on a missing file
+  def testgetLeveledFileContentMissingFile
+    assert_raise(LoadError) do
+      RCodeLeveler.getLeveledFileContent('RequiredFiles/MissingFile')
+    end
+  end
+  
+  # Test using RCodeLeveler.getLeveledFileContent on a non Ruby file
+  def testgetLeveledFileContentNonRubyFile
+    assert_raise(LoadError) do
+      RCodeLeveler.getLeveledFileContent('RequiredFiles/NonRubyFile.so')
+    end
+  end
+  
+  # Test using RCodeLeveler.setOutputDirectory
+  def testsetOutputDirectory
+    lOutputDir = Dir.tmpdir
+    RCodeLeveler::setOutputDirectory(lOutputDir)
+    RCodeLeveler::setLevel(2)
+    requireFile('SimpleFile')
+    lOutputFileName = "#{lOutputDir}/RequiredFiles/SimpleFile.leveled.rb"
+    assert(File.exist?(lOutputFileName))
+    lNewContent = nil
+    File.open(lOutputFileName, 'r') do |iNewFile|
+      lNewContent = iNewFile.readlines
+    end
+    File.open("#{File.dirname(__FILE__)}/RequiredFiles/SimpleFile.rb", 'r') do |iFile|
+      assert_not_equal(iFile.readlines, lNewContent)
+    end
+    # Remove the new file
+    File.delete(lOutputFileName)
+  end
+  
 end
