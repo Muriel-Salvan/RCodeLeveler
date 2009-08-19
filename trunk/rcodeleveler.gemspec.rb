@@ -19,8 +19,8 @@ def getSpecification
     lNow = DateTime.now
     iSpec.version = "0.1.#{sprintf('%04d%02d%02d',lNow.year,lNow.month,lNow.day)}"
     iSpec.author = 'Muriel Salvan'
-    iSpec.email = 'muriel_@users.sourceforge.net'
-    iSpec.homepage = 'https://sourceforge.net/projects/rcodeleveler'
+    iSpec.email = 'murielsalvan@users.sourceforge.net'
+    iSpec.homepage = 'http://rcodeleveler.sourceforge.net/'
     iSpec.platform = Gem::Platform::RUBY
     iSpec.summary = 'A Ruby preprocessor that enables/disables parts of the source code.'
     iSpec.files = Dir.glob('{test,lib,docs,examples}/**/*').delete_if do |iFileName|
