@@ -1,7 +1,7 @@
 # RCodeLeveler Gem specification
 #
 #--
-# Copyright (c) 2007 Muriel Salvan (muriel_@users.sourceforge.net)
+# Copyright (c) 2007 Muriel Salvan (murielsalvan@users.sourceforge.net)
 # Licensed under the terms specified in LICENSE file. No warranty is provided.
 #++
 
