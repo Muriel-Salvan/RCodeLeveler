@@ -1,0 +1,84 @@
+-- This file is best viewed when processed by rdoc.
+++
+
+= RCodeLeveler
+
+A Ruby file parser that enables/disables source code sections based on conditions.
+Very handy to implement debugging logs and code that has to be commented (and not just dynamically switched off) when not needed anymore.
+
+== What is inside this Gem/Zip/TarBall file ?
+
+* <tt>./lib/</tt>: The RCodeLeveler library.
+* <tt>./examples/</tt>: A quick and easy to understand example showing basic functionality.
+* <tt>./test/</tt>: The complete tests that validate the library.
+* <tt>./AUTHORS[link:files/AUTHORS.html]</tt>: The list of authors that have contributed.
+* <tt>./Bugs[link:files/Bugs.html]</tt>: The list of known bugs up to date.
+* <tt>./Credits[link:files/Credits.html]</tt>: The credits.
+* <tt>./LICENSE[link:files/LICENSE.html]</tt>: The license.
+* <tt>./README[link:files/README.html]</tt>: This file.
+* <tt>./Releases[link:files/Releases.html]</tt>: The history of releases.
+* <tt>./TODO[link:files/TODO.html]</tt>: The remaining TODO-list up to date.
+
+== How to install it ?
+
+=== From the Gem file
+
+1. First install RubyGems if it is not the case already (you can check by typing 'gem' in a terminal).
+   You can download it from http://rubygems.rubyforge.org.
+2. Type 'gem install <TheFileYouDownloaded>.gem' from a terminal.
+   If you want to first run regression testing before installing it, use '-t' option:
+     gem install -t <TheFileYouDownloaded>.gem
+
+=== From the Zip or TarBall file
+
+==== Under Unix
+
+1. Unzip/Untar the file in a directory ('unzip <TheFileYouDownloaded>.zip' or 'tar xvzf <TheFileYouDownloaded>.tar.gz' from the directory you want to install to).
+2. Add the path to the ./lib directory to your $RUBYLIB environment variable:
+     export RUBYLIB=$RUBYLIB:<AbsolutePathWhereYouUnzippedTheFile>/lib
+   Next time you execute a ruby program from this terminal, you will be able to use "require 'rcodeleveler'".
+   To make the setting permanent, you can put it in a login script (such as .bashrc).
+
+==== Under Windows
+
+1. Unzip/Untar the file in a directory.
+2. Add the path to the ./lib directory to your $RUBYLIB environment variable (you can put it in a login script):
+     set RUBYLIB=%RUBYLIB%;<AbsolutePathWhereYouUnzippedTheFile>/lib
+   Next time you execute a ruby program from this terminal, you will be able to use "require 'rcodeleveler'".
+   To make the setting permanent, you can modify your environment in 'Control settings'=>'System'=>'Advanced'=>'Environment variables'.
+
+== Where is the documentation ?
+
+Documentation is part of the first comments of the file lib/rcodeleveler.rb. It can be read as it is.
+
+However all the source code is commented and formatted to be readable using rdoc.
+
+=== From the Gem file
+
+It can also be viewed 2 ways:
+1. You can use 'ri rcodeleveler.rb',
+2. or read the generated rdoc (usually in <RubyInstallationDirectory>/gems/<RubyVersion>/doc/<NameOfInstalledGem>/rdoc/index.html).
+
+=== From the Zip or TarBall file
+
+It can also be viewed from the rdoc generated from the sources: type './generateRDoc.rb' from the directory where you unzipped the files, and read ./doc/index.html with a web browser.
+
+== How to see the basic functionality ?
+
+Go in the ./examples directory and run
+  ruby -w SimpleExample.rb
+  
+Reading the first comments of file lib/rcodeleveler.rb is very quick and useful to catch all the possibilities.
+
+== How to launch the regression testing ?
+
+Go in the ./test directory and run
+  ruby -w run.rb
+
+== Who wrote it ?
+
+Check the AUTHORS[link:files/AUTHORS.html] file.
+
+== What is the license ?
+
+You can find out in the LICENSE[link:files/LICENSE.html] file.
