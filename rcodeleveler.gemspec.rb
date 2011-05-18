@@ -31,7 +31,6 @@ def getSpecification
     iSpec.test_file = 'test/run.rb'
     iSpec.has_rdoc = true
     iSpec.extra_rdoc_files = ['README',
-                              'TODO',
                               'Bugs',
                               'Releases',
                               'LICENSE',
