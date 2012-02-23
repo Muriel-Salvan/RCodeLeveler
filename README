@@ -1,6 +1,3 @@
--- This file is best viewed when processed by rdoc.
-++
-
 = RCodeLeveler
 
 A Ruby file parser that enables/disables source code sections based on conditions.
