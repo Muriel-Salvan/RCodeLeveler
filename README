@@ -11,12 +11,12 @@ Very handy to implement debugging logs and code that has to be commented (and no
 * <tt>./lib/</tt>: The RCodeLeveler library.
 * <tt>./examples/</tt>: A quick and easy to understand example showing basic functionality.
 * <tt>./test/</tt>: The complete tests that validate the library.
-* <tt>./AUTHORS[link:files/AUTHORS.html]</tt>: The list of authors that have contributed.
-* <tt>./Bugs[link:files/Bugs.html]</tt>: The list of known bugs up to date.
-* <tt>./Credits[link:files/Credits.html]</tt>: The credits.
-* <tt>./LICENSE[link:files/LICENSE.html]</tt>: The license.
-* <tt>./README[link:files/README.html]</tt>: This file.
-* <tt>./Releases[link:files/Releases.html]</tt>: The history of releases.
+* <tt>./AUTHORS[link:AUTHORS.html]</tt>: The list of authors that have contributed.
+* <tt>./Bugs[link:Bugs.html]</tt>: The list of known bugs up to date.
+* <tt>./Credits[link:Credits.html]</tt>: The credits.
+* <tt>./LICENSE[link:LICENSE.html]</tt>: The license.
+* <tt>./README[link:README.html]</tt>: This file.
+* <tt>./Releases[link:Releases.html]</tt>: The history of releases.
 
 == How to install it ?
 
@@ -76,8 +76,8 @@ Go in the ./test directory and run
 
 == Who wrote it ?
 
-Check the AUTHORS[link:files/AUTHORS.html] file.
+Check the AUTHORS[link:AUTHORS.html] file.
 
 == What is the license ?
 
-You can find out in the LICENSE[link:files/LICENSE.html] file.
+You can find out in the LICENSE[link:LICENSE.html] file.

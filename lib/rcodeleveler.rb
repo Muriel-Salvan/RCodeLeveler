@@ -17,9 +17,9 @@
 # by this file, delete its reference from Ruby's loaded files' cache and re-require it).
 #
 # In order to use the functionalities of RCodeLeveler, you have to require your Ruby files
-# using +requireLevel+ function instead of +require+. Please note it works only with Ruby files.
+# using +require_level+ function instead of +require+. Please note it works only with Ruby files.
 #
-# The files being required using +requireLevel+ can then use some special comments:
+# The files being required using +require_level+ can then use some special comments:
 # * <b><tt>##\_\_LVL__ <Lvl> <Line></tt></b>: <tt><Line></tt> will be enabled only if the default level while
 #   requiring this file is greater or equal than <tt><Lvl></tt>.
 # * <b><tt>##\_\_LVLCAT__ <Cat> <Lvl> <Line></tt></b>: <tt><Line></tt> will be enabled only if the level 
@@ -46,25 +46,25 @@
 # will issue a warning during the file parsing.
 #
 # The following functions can be used to set levels before requiring the file:
-# * <tt>RCodeLeveler::setLevel(iLevel)</tt>: Set the default level.
-# * <tt>RCodeLeveler::setLevel(iLevel, iCategory)</tt>: Set the level for a given category.
-# * <tt>RCodeLeveler::resetLevels</tt>: Reset all levels for all categories to 0.
+# * <tt>RCodeLeveler::set_level(iLevel)</tt>: Set the default level.
+# * <tt>RCodeLeveler::set_level(iLevel, iCategory)</tt>: Set the level for a given category.
+# * <tt>RCodeLeveler::reset_levels</tt>: Reset all levels for all categories to 0.
 #
 # Please note that using only ##\_\_LVL__, ##\_\_LVLCAT__ and ##\_\_LVLRUBY__ directives enables you
 # to also require the file without RCodeLeveler, with all leveled code commented. This can be useful
 # if you use RCodeLeveler to just activate source code for debugging purposes only.
 #
 # You can also define different behaviour while encountering warnings during a file's parsing with function:
-# * <tt>RCodeLeveler::setWarningSeverity(iWarningSeverity)</tt>
+# * <tt>RCodeLeveler::set_warning_severity(iWarningSeverity)</tt>
 # where +iWarningSeverity+ can be:
 # * 0: No warning.
 # * 1: Display them on stderr.
 # * 2: Throw an exception (default)
 #
 # It is also possible to get the content of a file once leveled in a list of strings using function
-# <tt>RCodeLeveler.getLeveledFileContent(iLibraryName)</tt>.
+# <tt>RCodeLeveler.get_leveled_file_content(iLibraryName)</tt>.
 # RCodeLeveler can also write in a repository all files that have been leveled, by settinhg
-# a directory name using function <tt>RCodeLeveler.setOutputDirectory(iDirectory)</tt>
+# a directory name using function <tt>RCodeLeveler.set_output_directory(iDirectory)</tt>
 # (setting the argument to nil disables the functionality).
 # Those 2 last functionalities (added in versions >= 0.1.X) provide ways to release
 # your files without any dependency on RCodeLeveler itself: you use it to generate your
@@ -73,14 +73,14 @@
 # Please check the tests to find examples of all possible functionalities and uses.
 #
 #--
-# Copyright (c) 2007 - 2011 Muriel Salvan (murielsalvan@users.sourceforge.net)
+# Copyright (c) 2007 - 2012 Muriel Salvan (muriel@x-aeon.com)
 # Licensed under the terms specified in LICENSE file. No warranty is provided.
 #++
 
 require 'fileutils'
 
 # Main module for RCodeLeveler.
-# +requireLevel+ method is not part of it: it is in the global Module scope.
+# +require_level+ method is not part of it: it is in the global Module scope.
 module RCodeLeveler
 
   # Exception class due to a wrong decoding of the required file
@@ -94,33 +94,33 @@ module RCodeLeveler
   # 1: Display them on stderr.
   # 2: Throw an exception (default)
   #
-  # Parameters:
+  # Parameters::
   # * *iWarningSeverity* (_Integer_): Severity of warnings
-  def RCodeLeveler.setWarningSeverity(iWarningSeverity)
+  def self.set_warning_severity(iWarningSeverity)
     $RCLWarningSeverity = iWarningSeverity
   end
   
   # Reset all levels.
-  def RCodeLeveler.resetLevels
+  def self.reset_levels
     $RCLLevels = {K_Default_Category => 0}
   end
   
   # Set a level for a category.
   #
-  # Parameters:
+  # Parameters::
   # * *iLevel* (_Integer_): The level
   # * *iCategory* (_String_): The category name [optional = K_Default_Category]
-  def RCodeLeveler.setLevel(iLevel, iCategory = K_Default_Category)
+  def self.set_level(iLevel, iCategory = K_Default_Category)
     $RCLLevels[iCategory] = iLevel
   end
   
-  # Set an optional output directory where all leveled files required using requireLevel
+  # Set an optional output directory where all leveled files required using require_level
   # will be written.
   # Reset it by setting it to nil.
   #
-  # Parameters:
+  # Parameters::
   # * *iDirectory* (_String_): The directory to write files into [optional = nil]
-  def RCodeLeveler.setOutputDirectory(iDirectory = nil)
+  def self.set_output_directory(iDirectory = nil)
     $RCLOutputDirectory = iDirectory
   end
   
@@ -128,28 +128,22 @@ module RCodeLeveler
   # This can be useful to convert files and require them then without RCodeLeveler.
   # It can also be useful for debugging purposes.
   #
-  # Parameters:
+  # Parameters::
   # * *iLibraryName* (_String_): Name of the ruby file to require.
-  # Return:
+  # Return::
   # * <em>list<String></em>: The content of the file once levelized
   # * _Boolean_: Is the content really different from original content ?
-  def RCodeLeveler.getLeveledFileContent(iLibraryName)
+  def self.get_leveled_file_content(iLibraryName)
     rSourceCode = nil
     rDifferent = nil
     
-    lExtension = File.extname(iLibraryName)
-    if (lExtension == '')
-      lFileNameWithExt = "#{iLibraryName}.rb"
-    else
-      lFileNameWithExt = iLibraryName
-    end
     lRealFileName = RCodeLeveler::getRealLibraryPath(iLibraryName)
     if (lRealFileName != nil)
       rSourceCode, rDifferent = RCodeLeveler::getSourceFileContentLevelized(lRealFileName)
     else
       # Dump error
       lDirList = $:.join(', ')
-      raise LoadError, "Unable to find file #{iLibraryName}. List of directories searched: #{lDirList}. Please use getLeveledFileContent with Ruby source files only."
+      raise LoadError, "Unable to find file #{iLibraryName}. List of directories searched: #{lDirList}. Please use get_leveled_file_content with Ruby source files only."
     end
     
     return rSourceCode, rDifferent
@@ -179,9 +173,9 @@ module RCodeLeveler
   $RCLOutputDirectory = nil
   
   # Issue a warning specific to RCodeLeveler
-  # Parameters:
+  # Parameters::
   #   iMessage (String): The message to output
-  def RCodeLeveler.warning(iMessage)
+  def self.warning(iMessage)
     if ($RCLWarningSeverity == 1)
       $stderr.puts "RCodeLeveler - warning: #{iMessage}"
     elsif ($RCLWarningSeverity == 2)
@@ -196,11 +190,11 @@ module RCodeLeveler
   # (thanks Dave by the way for your excellent book !)
   # It appears Ruby's behaviour comes from the method "file.c:rb_find_file(path)" (Ruby 1.8.5).
   #
-  # Parameters:
+  # Parameters::
   # * *iLibraryName* (_String_): Name of the library to load, as given to require and load methods
-  # Return:
+  # Return::
   # * _String_: The name of the real source file (or nil if none found)
-  def RCodeLeveler.getRealLibraryPath(iLibraryName)
+  def self.getRealLibraryPath(iLibraryName)
     lRealFileName = nil
     
     lExtension = File.extname(iLibraryName)
@@ -237,13 +231,13 @@ module RCodeLeveler
 
   # Get the content of a file once levelized.
   #
-  # Parameters:
+  # Parameters::
   # * *iFileName* (_String_): Path to the source file to level
   # * *iOutputFileName* (_String_): If set, specifies a file name to write the leveled file [optional = nil]
-  # Return:
+  # Return::
   # * <em>list<String></em>: The content of the file once levelized
   # * _Boolean_: Is the content really different from original content ?
-  def RCodeLeveler.getSourceFileContentLevelized(iFileName, iOutputFileName = nil)
+  def self.getSourceFileContentLevelized(iFileName, iOutputFileName = nil)
     lNewFileContents = []
     lFoundUsefulLVLMacro = false
     
@@ -483,9 +477,9 @@ end
 # a global variable and use it.
 #++
 #
-# Parameters:
+# Parameters::
 # * *iLibraryName* (_String_): Name of the ruby file to require.
-def requireLevel(iLibraryName)
+def require_level(iLibraryName)
   lExtension = File.extname(iLibraryName)
   if (lExtension == '')
     lFileNameWithExt = "#{iLibraryName}.rb"
@@ -497,7 +491,7 @@ def requireLevel(iLibraryName)
     # Get the real location
     lRealFileName = RCodeLeveler::getRealLibraryPath(iLibraryName)
     if (lRealFileName != nil)
-      # Avoid further parsing of this file with require or requireLevel
+      # Avoid further parsing of this file with require or require_level
       $" << lFileNameWithExt
       if ($RCLOutputDirectory == nil)
         lSourceCode, lDifference = RCodeLeveler::getSourceFileContentLevelized(lRealFileName)
@@ -517,7 +511,7 @@ def requireLevel(iLibraryName)
     else
       # Dump error
       lDirList = $:.join(', ')
-      raise LoadError, "Unable to find file #{iLibraryName}. List of directories searched: #{lDirList}. Please use requireLevel with Ruby source files only."
+      raise LoadError, "Unable to find file #{iLibraryName}. List of directories searched: #{lDirList}. Please use require_level with Ruby source files only."
     end
   end
 end

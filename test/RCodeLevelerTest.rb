@@ -3,7 +3,7 @@
 # This file defines all common methods for regression testing.
 # It has to be included by any regression testing file.
 #--
-# Copyright (c) 2007 - 2011 Muriel Salvan (murielsalvan@users.sourceforge.net)
+# Copyright (c) 2007 - 2012 Muriel Salvan (muriel@x-aeon.com)
 # Licensed under the terms specified in LICENSE file. No warranty is provided.
 #++
 
@@ -21,7 +21,7 @@ module RCodeLevelerTest
   # Reset all previously set levels.
   # Reset warning severity to 2.
   #
-  # Parameters:
+  # Parameters::
   # * *iRootDir* (_String_): The root dir (containing the FileSystems directory)
   def setRootDir(iRootDir)
     @RootDir = iRootDir
@@ -36,9 +36,9 @@ module RCodeLevelerTest
     if (!$LOAD_PATH.include?(iRootDir))
       $LOAD_PATH << iRootDir
     end
-    RCodeLeveler.resetLevels
-    RCodeLeveler.setWarningSeverity(2)
-    RCodeLeveler.setOutputDirectory(nil)
+    RCodeLeveler.reset_levels
+    RCodeLeveler.set_warning_severity(2)
+    RCodeLeveler.set_output_directory(nil)
   end
   
   # Remove the directory that includes RequiredFiles for the next tests.
@@ -52,17 +52,17 @@ module RCodeLevelerTest
   
   # Require a file to be loaded.
   #
-  # Parameters:
+  # Parameters::
   # * *iRequiredFileName* (_String_): Name of the Required File being operated by further tests.
   def requireFile(iRequiredFileName)
-    requireLevel("RequiredFiles/#{iRequiredFileName}")
+    require_level("RequiredFiles/#{iRequiredFileName}")
   end
   
 end
 
 # Requires recursively ruby files in sub-directories
 #
-# Parameters:
+# Parameters::
 # * *iDir* (_String_): The directory to check
 # * *iRequireThisDir* (_Boolean_): Do we require the .rb files of this directory ?
 def requireTestRubyFiles(iDir, iRequireThisDir)

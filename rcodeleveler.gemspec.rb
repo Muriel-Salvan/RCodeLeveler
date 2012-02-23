@@ -1,7 +1,7 @@
 # RCodeLeveler Gem specification
 #
 #--
-# Copyright (c) 2007 - 2011 Muriel Salvan (murielsalvan@users.sourceforge.net)
+# Copyright (c) 2007 - 2012 Muriel Salvan (muriel@x-aeon.com)
 # Licensed under the terms specified in LICENSE file. No warranty is provided.
 #++
 
@@ -11,7 +11,7 @@ require 'date'
 
 # Return the Gem specification
 #
-# Return:
+# Return::
 # * <em>Gem::Specification</em>: The Gem specification
 def getSpecification
   return Gem::Specification.new do |iSpec|
@@ -19,7 +19,7 @@ def getSpecification
     lNow = DateTime.now
     iSpec.version = "0.1.#{sprintf('%04d%02d%02d',lNow.year,lNow.month,lNow.day)}"
     iSpec.author = 'Muriel Salvan'
-    iSpec.email = 'murielsalvan@users.sourceforge.net'
+    iSpec.email = 'muriel@x-aeon.com'
     iSpec.homepage = 'http://rcodeleveler.sourceforge.net/'
     iSpec.platform = Gem::Platform::RUBY
     iSpec.summary = 'A Ruby preprocessor that enables/disables parts of the source code.'
